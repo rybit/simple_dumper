@@ -47,8 +47,9 @@ func start(c *cli.Context) {
 			c.GlobalString("key"),
 			c.GlobalInt("https"))
 	}
-
-	http.ListenAndServe(fmt.Sprintf(":%d", c.GlobalInt("port")), nil)
+	port := c.GlobalInt("port")
+	fmt.Printf("Starting HTTP server on %d\n", port)
+	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 }
 
 func dump(w http.ResponseWriter, r *http.Request) {
@@ -94,5 +95,6 @@ func startHTTPSServer(certPath, keyPath string, port int) {
 		return
 	}
 
+	fmt.Printf("Starting HTTPS server on %d\n", port)
 	http.ListenAndServeTLS(fmt.Sprintf(":%d", port), certPath, keyPath, nil)
 }
